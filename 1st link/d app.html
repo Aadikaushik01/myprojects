@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Discussion App</title>
+  <style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #e0e0e0;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 700px;
+    margin: auto;
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+  }
+
+  h2 {
+    text-align: center;
+    color: #444;
+    margin-bottom: 20px;
+  }
+
+  form {
+    margin-bottom: 30px;
+  }
+
+  input, textarea, button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1em;
+  }
+
+  button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  #messagesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .message {
+    max-width: 70%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    position: relative;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    word-wrap: break-word;
+  }
+
+  .message.left {
+    align-self: flex-start;
+    background-color: #f1f0f0;
+    border-top-left-radius: 0;
+  }
+
+  .message.right {
+    align-self: flex-end;
+    background-color: #d1ecf1;
+    border-top-right-radius: 0;
+  }
+
+  .message .user {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+
+  .message .text {
+    color: #555;
+  }
+</style>
+
+</head>
+<body>
+  <div class="container">
+    <h2>Discussion Board</h2>
+    <form id="discussionForm">
+      <input type="text" id="username" placeholder="Your name" required />
+      <textarea id="message" placeholder="Your message" rows="4" required></textarea>
+      <button type="submit">Post Message</button>
+    </form>
+    <div id="messagesContainer"></div>
+  </div>
+
+<script>
+  
+  const form = document.getElementById('discussionForm');
+  const nameField = document.getElementById('username');
+  const messageField = document.getElementById('message');
+  const messageBox = document.getElementById('messagesContainer');
+
+ 
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); 
+
+    const name = nameField.value.trim();
+    const message = messageField.value.trim();
+
+    if (name === '' || message === '') return;
+
+    const newMessage = document.createElement('div');
+    newMessage.classList.add('message');
+
+    const timeStamp = new Date().toLocaleString();
+
+    newMessage.innerHTML = `
+      <div class="user"><strong>${name}</strong></div>
+      <div class="text">${message}</div>
+      <div class="time" style="font-size: 0.85em; color: gray;">${timeStamp}</div>
+      <button class="delete-btn" style="margin-top: 10px; padding: 5px 10px; background: red; color: white; border: none; border-radius: 4px; cursor: pointer;">Delete</button>
+    `;
+
+    
+    newMessage.querySelector('.delete-btn').addEventListener('click', function () {
+      newMessage.remove();
+    });
+
+    messageBox.prepend(newMessage); 
+
+    nameField.value = '';
+    messageField.value = '';
+  });
+ 
+</script>
+
+
+
+</body>
+</html>
